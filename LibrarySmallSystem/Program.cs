@@ -27,6 +27,9 @@ namespace LibrarySmallSystem
             builder.Services.AddAutoMapper(typeof(MappingProfail));
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<ICategoryCustom, CatigoryCustom>();
+            builder.Services.AddScoped<IBookCustom, BookCustom>();
+            
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

@@ -15,6 +15,8 @@ namespace LibrarySmallSystem.UnitOfWorkk
 
         public ICategoryCustom Category { get; }
 
+        public IBookCustom Book {  get; }
+
         public int save()
         {
             return _context.SaveChanges();

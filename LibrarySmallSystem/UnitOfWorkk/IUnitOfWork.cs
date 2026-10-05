@@ -6,6 +6,7 @@ namespace LibrarySmallSystem.UnitOfWorkk
     public interface IUnitOfWork
     {
         ICategoryCustom Category { get; }
+        IBookCustom Book { get; }
         int save();
     }
 }
