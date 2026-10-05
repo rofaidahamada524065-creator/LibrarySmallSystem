@@ -1,0 +1,6 @@
+@LibrarySmallSystem_HostAddress = http://localhost:5185
+
+GET {{LibrarySmallSystem_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
