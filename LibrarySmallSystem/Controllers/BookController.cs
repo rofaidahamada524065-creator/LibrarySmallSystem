@@ -19,35 +19,56 @@ namespace LibrarySmallSystem.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("{t}")]
-        public IActionResult GetAll(string t) 
-        {
-
-            var x = _repo.Book.Search(t);
-            var list=_mapper.Map<List<BookDTO>>(x);
-            return Ok(list);
-        }
-
         [HttpPost]
-        public IActionResult Get(CreateBookDTO Dto)
+        public IActionResult Create(CreateBookDTO dto)
         {
-            if(Dto == null)
+            if (dto == null)
             {
-                return BadRequest("Data Not Found");
+                return BadRequest("Data not valide");
             }
-           var s=_mapper.Map<Book>(Dto);
-            _repo.Book.Add(s);
+
+            var  c =  _mapper.Map<Book>(dto);
+
+             _repo.Book.AddAsync(c);
+
             _repo.save();
+
             return Ok();
-
         }
 
-        [HttpGet("highestPrice")]
-        public IActionResult highestPrice()
+        [HttpGet("Search")]
+        public IActionResult Search(string word)
         {
-            var x = _repo.Book.HighestPrice();
-           
-            return Ok(x);
+            if (word == null)
+            {
+                return  BadRequest("invalid data");
+            }
+            var x = _repo.Book.Search(word);
+            if (x == null)
+            {
+                return null;
+            }
+            var c = x.Select(a => new
+            {
+                a.Id,
+                a.Author,
+                a.Title,
+                a.Price
+
+            }).ToList();
+            return Ok(c);
         }
+
+        [HttpGet("Most_Expensive")]
+
+        public IActionResult Most_Expensive()
+        {
+            var s = _repo.Book.BookWithHighstPrice();
+           
+            var c = _mapper.Map<BookDTO>(s);
+            return Ok(c);
+        }
+
+
     }
 }

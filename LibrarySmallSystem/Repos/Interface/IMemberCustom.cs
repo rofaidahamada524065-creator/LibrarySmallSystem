@@ -1,9 +1,11 @@
-﻿using LibrarySmallSystem.Model;
+﻿using LibrarySmallSystem.DTOs.Member;
+using LibrarySmallSystem.Model;
 
 namespace LibrarySmallSystem.Repos.Interface
 {
-    public interface IMemberCustom : IGenaricRepo<Member>
+    public interface IMemberCustom:IGenaricRepo<Member>
     {
-        ICollection<Member> top_readers();
+        ICollection<Member> Top_Reader();
+        MemberWithBookWithBorow Statistics(int Mid);
     }
 }

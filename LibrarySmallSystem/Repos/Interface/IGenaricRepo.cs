@@ -2,11 +2,11 @@
 {
     public interface IGenaricRepo<T> where T : class
     {
-        void Add(T entity);
+        void AddAsync(T entity);
         void Update(T entity,int id);
-        void Delete(int id);
-        T GetById(int id);
+        void DeleteAsync(int id);
+        T GetByIdAsync(int id);
 
-        List<T> GetAll();
+        ICollection<T> GetAllAsync();
     }
 }

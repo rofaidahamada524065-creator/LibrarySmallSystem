@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using LibrarySmallSystem.DTOs.Catigory;
+using LibrarySmallSystem.Model;
 using LibrarySmallSystem.UnitOfWorkk;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,36 +18,42 @@ namespace LibrarySmallSystem.Controllers
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        //[HttpGet("GetAllWithNumberOfBook")]
-        //public IActionResult GetAllWithNumberOfBook()
-        //{
-        //    var categories = _unitOfWork.Category.GetAllWithNumberOfBook();
-        //    var x= _mapper.Map<ICollection<CategoryDTO>>(categories);
-        //    x.Select(c => new CategoryDTO
-        //    {
-             
-        //        Name = c.Name
-               
-        //    }).ToList();
-        //    return Ok(x);
-        //}
+        [HttpGet("GetAllWithNumberOfBook")]
+        public IActionResult GetAllWithNumberOfBook()
+        {
+            var categories = _unitOfWork.catigory.CatigoryWithNumberOfBook();
+
+            var x = categories.Select(c => new 
+            {
+
+                Id = c.Id,
+                Name = c.Name,
+                numberOfBook = c.Books.Count
+
+            }).ToList();
+            return Ok(x);
+        }
         [HttpPost("AddCategory")]
         public IActionResult AddCategory(CreatecatigoryDTO categoryDTO)
         {
-            var category = _mapper.Map<LibrarySmallSystem.Model.Category>(categoryDTO);
-            _unitOfWork.Category.Add(category);
+            if (categoryDTO == null)
+            {
+                return BadRequest("Data not found");
+            }
+            var category = _mapper.Map<Category>(categoryDTO);
+            _unitOfWork.catigory.AddAsync(category);
             _unitOfWork.save();
             return Ok();
         }
         [HttpDelete]
         public IActionResult DeleteCategory(int id)
         {
-            var category = _unitOfWork.Category.GetById(id);
+            var category = _unitOfWork.catigory.GetByIdAsync(id);
             if (category == null)
             {
                 return NotFound();
             }
-            _unitOfWork.Category.Delete(id);
+            _unitOfWork.catigory.DeleteAsync(id);
             _unitOfWork.save();
             return Ok();
         }
@@ -54,7 +61,7 @@ namespace LibrarySmallSystem.Controllers
         [HttpGet("GetById")]
         public IActionResult GetById(int id)
         {
-            var category = _unitOfWork.Category.GetById(id);
+            var category = _unitOfWork.catigory.GetByIdAsync(id);
             if (category == null)
             {
                 return NotFound();

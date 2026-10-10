@@ -7,19 +7,31 @@ namespace LibrarySmallSystem.UnitOfWorkk
     public class UnitOfWork : IUnitOfWork
     {
         private readonly AppDbcontext _context;
-        public UnitOfWork(AppDbcontext appDbcontext,ICategoryCustom categoryCustom)
+        public UnitOfWork(AppDbcontext appDbcontext,IBookCustom bookCustom,ICatigoryCustom catigorys,IMemberCustom memberCustom,IBorowCustom borowCustom,IUserRepository userRepository)
         {
             _context = appDbcontext;
-            Category = categoryCustom;
+            Book = bookCustom;
+            catigory = catigorys;
+            member = memberCustom;
+            borow = borowCustom;
+            user = userRepository;
         }
 
-        public ICategoryCustom Category { get; }
+     
 
         public IBookCustom Book {  get; }
 
+        public ICatigoryCustom catigory { get; }
+
+        public IMemberCustom member { get; }
+
+        public IBorowCustom borow { get; }
+
+        public IUserRepository user { get; }
+
         public int save()
         {
-            return _context.SaveChanges();
+            return  _context.SaveChanges();
         }
     }
 }

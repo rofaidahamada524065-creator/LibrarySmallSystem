@@ -1,10 +1,11 @@
 ﻿using LibrarySmallSystem.Data;
 using LibrarySmallSystem.Model;
 using LibrarySmallSystem.Repos.Interface;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibrarySmallSystem.Repos.Impelementation
 {
-    public class CatigoryCustom : GenaricRepo<Category>, ICategoryCustom
+    public class CatigoryCustom : GenaricRepo<Category>, ICatigoryCustom
     {
         private readonly AppDbcontext _context;
         public CatigoryCustom(AppDbcontext appDbcontext) : base(appDbcontext)
@@ -12,24 +13,9 @@ namespace LibrarySmallSystem.Repos.Impelementation
             _context = appDbcontext;
         }
 
-     
-
-        //public ICollection<Category> GetAllWithNumberOfBook()
-        //{
-
-        //    var x = _context.categories.GroupBy(a => a.Id).Select(a => new 
-        //    {
-        //        Id = a.Key,
-        //        Name = a.First().Name,
-        //        NumberOfBook = a.Select(b => new 
-        //        {
-        //            BookName = b.Books.Count()
-        //        })
-        //    }).ToList();
-
-        //    return x;
-
-
-        //}
+        public ICollection<Category> CatigoryWithNumberOfBook()
+        {
+            return _context.categories.Include(a => a.Books).ToList();
+        }
     }
 }

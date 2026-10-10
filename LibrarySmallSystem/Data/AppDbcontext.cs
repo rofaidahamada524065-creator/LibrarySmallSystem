@@ -13,7 +13,7 @@ namespace LibrarySmallSystem.Data
         public DbSet<Category> categories { get; set; }
         public DbSet<Borrowing> borrowings { get; set; }
         public DbSet<Member> members { get; set; }
-
+        public DbSet<User> users { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Category>()
@@ -30,6 +30,10 @@ namespace LibrarySmallSystem.Data
                 .HasMany(b => b.Borrowings)
                 .WithOne(b => b.Book)
                 .HasForeignKey(b => b.BookId);
+
+            modelBuilder.Entity<User>()
+            .HasIndex(u => u.UserName)
+                .IsUnique();
 
             modelBuilder.Entity<Category>().HasData
                 (

@@ -5,8 +5,11 @@ namespace LibrarySmallSystem.UnitOfWorkk
 {
     public interface IUnitOfWork
     {
-        ICategoryCustom Category { get; }
+        IMemberCustom member { get; }
+        ICatigoryCustom catigory { get; }
         IBookCustom Book { get; }
+        IBorowCustom borow { get; }
+        IUserRepository user { get; }
         int save();
     }
 }
